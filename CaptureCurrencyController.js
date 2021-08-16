@@ -112,6 +112,8 @@
         console.log("@@@ Account Fields method :: ");
         console.log(fields);
         var nameFieldValue = component.find("AccountIdField").set("v.value", component.get('v.recordId'));
+        var currFieldValue = component.find("CurrencyIsoCodeField").set("v.value", component.get('v.accountCurrency'));
+        
     },
     handleClickBAU : function(component, event, helper) {
         var selectedPage = component.get('v.selectedPage'); 
@@ -217,15 +219,18 @@
                 component.set("v.listofcurrency", storeResponse);
                 var accCurr = component.get("v.accountCurrency");
                 console.log("@@@ accCurr :: ", accCurr);
-                
-                if(!storeResponse.includes(accCurr)){
-                    console.log("@@@ storeResponse accCurr not find:: ");
-                    component.set("v.accountCurrency","USD");
-                    component.set("v.selectedValue", "USD");
-                }else{
-                    component.set("v.accountCurrency",accCurr);
-                    component.set("v.selectedValue", accCurr);
+                if(storeResponse != null && storeResponse.length > 0){
+                    if(!storeResponse.includes(accCurr)){
+                        console.log("@@@ storeResponse accCurr not find:: ");
+                        component.set("v.accountCurrency","USD");
+                        component.set("v.selectedValue", "USD");
+                    }else{
+                        component.set("v.accountCurrency",accCurr);
+                        component.set("v.selectedValue", accCurr);
+                    }
                 }
+                
+                
                 console.log("@@@ after accCurr :: ", component.get("v.selectedValue"));
                 if('Commercial' == dealtype){
                     //component.set("v.selectedValue", storeResponse[0]);
